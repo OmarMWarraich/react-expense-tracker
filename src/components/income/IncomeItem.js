@@ -1,10 +1,10 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import { Box, Text, IconButton } from '@chakra-ui/react';
+import { Card, Text, IconButton } from '@chakra-ui/react';
 import { AiOutlineDelete } from 'react-icons/ai';
 
 const IncomeItem = ({ income, onDeleteIncome }) => (
-  <Box>
+  <Card mt={4}>
     <Text fontSize="lg" fontWeight="bold">
       {income.description}
     </Text>
@@ -19,7 +19,7 @@ const IncomeItem = ({ income, onDeleteIncome }) => (
       aria-label="Delete Income"
       size="sm"
     />
-  </Box>
+  </Card>
 );
 
 IncomeItem.propTypes = {

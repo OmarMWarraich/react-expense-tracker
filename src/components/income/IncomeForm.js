@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import {
-  Box,
+  Card,
   Flex,
   Input,
   Button,
@@ -29,24 +29,24 @@ function IncomeForm() {
   };
 
   return (
-    <Box as="form" onSubmit={handleSubmit}>
+    <Card as="form" onSubmit={handleSubmit}>
       <Flex direction="column" maxW="sm" m="auto" p={4}>
         <FormControl id="description" isRequired>
-          <FormLabel>Income Description</FormLabel>
+          <FormLabel>Income</FormLabel>
           <Input
             type="text"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            placeholder="Enter description"
+            placeholder="Description"
           />
         </FormControl>
         <FormControl id="amount" isRequired>
-          <FormLabel>Amount</FormLabel>
+          <FormLabel />
           <Input
             type="number"
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
-            placeholder="Enter amount"
+            placeholder="Amount"
           />
         </FormControl>
         <Button
@@ -58,7 +58,7 @@ function IncomeForm() {
           Add Income
         </Button>
       </Flex>
-    </Box>
+    </Card>
   );
 }
 
