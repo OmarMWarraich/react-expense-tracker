@@ -7,21 +7,21 @@ import {
   FormControl,
   FormLabel,
 } from '@chakra-ui/react';
-import { useExpenseContext } from '../context/ExpenseContext';
+import { useIncomeContext } from '../../context/IncomeContext';
 
-function ExpenseForm() {
+function IncomeForm() {
   const [description, setDescription] = useState('');
   const [amount, setAmount] = useState('');
-  const { dispatch } = useExpenseContext();
+  const { dispatch } = useIncomeContext();
 
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Generate a unique id for the new expense
+    // Generate a unique id for the new income
     const id = new Date().getTime().toString();
 
-    // Dispatch the action to add the new expense
-    dispatch({ type: 'ADD_EXPENSE', payload: { id, description, amount } });
+    // Dispatch the action to add the new income
+    dispatch({ type: 'ADD_INCOME', payload: { id, description, amount } });
 
     // Clear the form inputs after submission
     setDescription('');
@@ -32,7 +32,7 @@ function ExpenseForm() {
     <Box as="form" onSubmit={handleSubmit}>
       <Flex direction="column" maxW="sm" m="auto" p={4}>
         <FormControl id="description" isRequired>
-          <FormLabel>Expense Description</FormLabel>
+          <FormLabel>Income Description</FormLabel>
           <Input
             type="text"
             value={description}
@@ -55,11 +55,11 @@ function ExpenseForm() {
           mt={4}
           alignSelf="flex-end"
         >
-          Add Expense
+          Add Income
         </Button>
       </Flex>
     </Box>
   );
 }
 
-export default ExpenseForm;
+export default IncomeForm;

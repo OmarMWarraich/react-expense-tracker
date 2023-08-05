@@ -1,16 +1,18 @@
 import './App.css';
-import ExpenseForm from './components/ExpenseForm';
-import ExpenseList from './components/ExpenseList';
+import { ExpenseProvider } from './context/ExpenseContext';
+import { IncomeProvider } from './context/IncomeContext';
 import Header from './components/Header';
+import Dashboard from './components/Dashboard';
 
-function App() {
-  return (
-    <div className="App">
-      <Header />
-      <ExpenseForm />
-      <ExpenseList />
-    </div>
-  );
-}
+const App = () => (
+  <div className="App">
+    <ExpenseProvider>
+      <IncomeProvider>
+        <Header />
+        <Dashboard />
+      </IncomeProvider>
+    </ExpenseProvider>
+  </div>
+);
 
 export default App;
