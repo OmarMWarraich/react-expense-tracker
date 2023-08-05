@@ -15,7 +15,10 @@ const incomeReducer = (state, action) => {
         incomes: [...state.incomes, action.payload],
       };
     case 'REMOVE_INCOME':
-      return state;
+      return {
+        ...state,
+        incomes: state.incomes.filter((income) => income.id !== action.payload),
+      };
     default:
       return state;
   }

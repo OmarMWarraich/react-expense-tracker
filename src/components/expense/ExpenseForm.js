@@ -17,13 +17,10 @@ function ExpenseForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    // Generate a unique id for the new expense
     const id = new Date().getTime().toString();
 
-    // Dispatch the action to add the new expense
     dispatch({ type: 'ADD_EXPENSE', payload: { id, description, amount } });
 
-    // Clear the form inputs after submission
     setDescription('');
     setAmount('');
   };

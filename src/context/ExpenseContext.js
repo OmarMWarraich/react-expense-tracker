@@ -4,11 +4,10 @@ import PropTypes from 'prop-types';
 const ExpenseContext = createContext();
 
 const initialState = {
-  expenses: [], // Assuming this is an array of expense objects
+  expenses: [],
 };
 
 function expenseReducer(state, action) {
-  // Implement your reducer logic based on different actions
   switch (action.type) {
     case 'ADD_EXPENSE':
       return {
@@ -16,9 +15,12 @@ function expenseReducer(state, action) {
         expenses: [...state.expenses, action.payload],
       };
     case 'REMOVE_EXPENSE':
-      // Implement remove logic here
-      return state;
-    // Other cases
+      return {
+        ...state,
+        expenses: state.expenses.filter(
+          (expense) => expense.id !== action.payload,
+        ),
+      };
     default:
       return state;
   }
