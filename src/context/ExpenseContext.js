@@ -1,125 +1,46 @@
 import React, { createContext, useContext, useReducer } from 'react';
 import PropTypes from 'prop-types';
 
+const ExpenseContext = createContext();
+
 const initialState = {
-  expenses: [],
-  loading: false,
-  error: null,
+  expenses: [], // Assuming this is an array of expense objects
 };
 
-// Reducer Function to handle changes in state
-
-const expenseReducer = (state, action) => {
+function expenseReducer(state, action) {
+  // Implement your reducer logic based on different actions
   switch (action.type) {
     case 'ADD_EXPENSE':
       return {
         ...state,
         expenses: [...state.expenses, action.payload],
       };
-    case 'DELETE_EXPENSE':
-      return {
-        ...state,
-        expenses: state.expenses.filter(
-          (expense) => expense.id !== action.payload,
-        ),
-      };
-    case 'EDIT_EXPENSE':
-      return {
-        ...state,
-        expenses: state.expenses.map((expense) => (expense.id
-        === action.payload.id ? action.payload : expense)),
-      };
-    case 'SET_EXPENSES':
-      return {
-        ...state,
-        expenses: action.payload,
-      };
-    case 'SET_LOADING':
-      return {
-        ...state,
-        loading: true,
-      };
-    case 'SET_ERROR':
-      return {
-        ...state,
-        error: action.payload,
-      };
+    case 'REMOVE_EXPENSE':
+      // Implement remove logic here
+      return state;
+    // Other cases
     default:
       return state;
   }
-};
+}
 
-// Create Context
-const ExpenseContext = createContext();
-
-// Create Provider
-
-const ExpenseProvider = ({ children }) => {
+function ExpenseProvider({ children }) {
   const [state, dispatch] = useReducer(expenseReducer, initialState);
 
-  const addExpense = (expense) => {
-    dispatch({
-      type: 'ADD_EXPENSE',
-      payload: expense,
-    });
-  };
-
-  const deleteExpense = (id) => {
-    dispatch({
-      type: 'DELETE_EXPENSE',
-      payload: id,
-    });
-  };
-
-  const editExpense = (expense) => {
-    dispatch({
-      type: 'EDIT_EXPENSE',
-      payload: expense,
-    });
-  };
-
-  const setExpenses = (expenses) => {
-    dispatch({
-      type: 'SET_EXPENSES',
-      payload: expenses,
-    });
-  };
-
-  const setLoading = () => {
-    dispatch({
-      type: 'SET_LOADING',
-    });
-  };
-
-  const setError = (error) => {
-    dispatch({
-      type: 'SET_ERROR',
-      payload: error,
-    });
-  };
-
   return (
-    <ExpenseContext.Provider
-      value={{
-        expenses: state.expenses,
-        loading: state.loading,
-        error: state.error,
-        addExpense,
-        deleteExpense,
-        editExpense,
-        setExpenses,
-        setLoading,
-        setError,
-      }}
-    >
+    <ExpenseContext.Provider value={{ state, dispatch }}>
       {children}
     </ExpenseContext.Provider>
   );
-};
+}
 
-// Custom Hook to consume the ExpenseContext
-
-const useExpenseContext = () => useContext(ExpenseContext);
+function useExpenseContext() {
+  const context = useContext(ExpenseContext);
+  if (!context) {
+    throw new Error('useExpenseContext must be used within an ExpenseProvider');
+  }
+  return context;
+}
 
 ExpenseProvider.propTypes = {
   children: PropTypes.node.isRequired,
