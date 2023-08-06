@@ -2,13 +2,19 @@ import React, {
   createContext,
   useContext,
   useReducer,
+  useEffect,
 } from 'react';
 import PropTypes from 'prop-types';
 
 export const ExpenseContext = createContext();
 
+const getInitialState = () => {
+  const storedExpenses = JSON.parse(localStorage.getItem('expenses'));
+  return storedExpenses || [];
+};
+
 const initialState = {
-  expenses: [],
+  expenses: getInitialState(),
 };
 
 function expenseReducer(state, action) {
@@ -25,6 +31,11 @@ function expenseReducer(state, action) {
           (expense) => expense.id !== action.payload,
         ),
       };
+    case 'SET_EXPENSES':
+      return {
+        ...state,
+        expenses: action.payload,
+      };
     default:
       return state;
   }
@@ -33,10 +44,28 @@ function expenseReducer(state, action) {
 function ExpenseContextProvider({ children }) {
   const [state, dispatch] = useReducer(expenseReducer, initialState);
 
+  const saveToLocalStorage = (expenses) => {
+    localStorage.setItem('expenses', JSON.stringify(expenses));
+  };
+
+  const loadFromLocalStorage = () => {
+    const storedExpenses = JSON.parse(localStorage.getItem('expenses'));
+    return storedExpenses || [];
+  };
+
+  useEffect(() => {
+    const storedExpenses = loadFromLocalStorage();
+    dispatch({ type: 'SET_EXPENSES', payload: storedExpenses });
+  }, []);
+
   const getTotalExpense = () => {
     const total = state.expenses.reduce((total, item) => total + Number(item.amount), 0);
     return Number(total);
   };
+
+  useEffect(() => {
+    saveToLocalStorage(state.expenses);
+  }, [state.expenses]);
 
   return (
     <ExpenseContext.Provider value={{ state, dispatch, getTotalExpense }}>

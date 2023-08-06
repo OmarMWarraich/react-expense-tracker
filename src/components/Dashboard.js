@@ -16,23 +16,25 @@ const Dashboard = () => {
 
   return (
     <>
-      <Balance />
-      <Flex
-        direction={isMobile ? 'column' : 'row'}
-        justifyContent="center"
-        alignItems="flex-start"
-        mt={4}
-        p={9}
-      >
-        <Box mr={isMobile ? 0 : 2} mt={2}>
-          <ExpenseForm />
-          <ExpenseList />
-        </Box>
-        <Box ml={isMobile ? 0 : 2} mt={2}>
-          <IncomeForm />
-          <IncomeList />
-        </Box>
-      </Flex>
+      <Box>
+        <Balance />
+        <Flex
+          direction={isMobile ? 'column' : 'row'}
+          justifyContent="center"
+          alignItems="flex-start"
+          mt={4}
+          p={9}
+        >
+          <Box mr={isMobile ? 0 : 2} mt={2}>
+            <ExpenseForm />
+            <ExpenseList />
+          </Box>
+          <Box ml={isMobile ? 0 : 2} mt={2}>
+            <IncomeForm />
+            <IncomeList />
+          </Box>
+        </Flex>
+      </Box>
     </>
   );
 };
