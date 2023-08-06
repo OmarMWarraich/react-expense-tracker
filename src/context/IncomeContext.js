@@ -1,7 +1,9 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, {
+  createContext, useContext, useReducer,
+} from 'react';
 import PropTypes from 'prop-types';
 
-const IncomeContext = createContext();
+export const IncomeContext = createContext();
 
 const initialState = {
   incomes: [],
@@ -24,11 +26,16 @@ const incomeReducer = (state, action) => {
   }
 };
 
-const IncomeProvider = ({ children }) => {
+const IncomeContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(incomeReducer, initialState);
 
+  const getTotalIncome = () => {
+    const total = state.incomes.reduce((total, item) => total + Number(item.amount), 0);
+    return Number(total);
+  };
+
   return (
-    <IncomeContext.Provider value={{ state, dispatch }}>
+    <IncomeContext.Provider value={{ state, dispatch, getTotalIncome }}>
       {children}
     </IncomeContext.Provider>
   );
@@ -37,13 +44,13 @@ const IncomeProvider = ({ children }) => {
 const useIncomeContext = () => {
   const context = useContext(IncomeContext);
   if (!context) {
-    throw new Error('useIncomeContext must be used within an IncomeProvider');
+    throw new Error('useIncomeContext must be used within an IncomeContextProvider');
   }
   return context;
 };
 
-IncomeProvider.propTypes = {
+IncomeContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export { IncomeProvider, useIncomeContext };
+export { IncomeContextProvider, useIncomeContext };

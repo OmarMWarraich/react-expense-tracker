@@ -1,8 +1,13 @@
 import React from 'react';
-import { Box, Flex, useMediaQuery } from '@chakra-ui/react';
+import {
+  Box,
+  Flex,
+  useMediaQuery,
+} from '@chakra-ui/react';
 
 import IncomeList from './income/IncomeList';
 import IncomeForm from './income/IncomeForm';
+import Balance from './balance/Balance';
 import ExpenseList from './expense/ExpenseList';
 import ExpenseForm from './expense/ExpenseForm';
 
@@ -11,6 +16,7 @@ const Dashboard = () => {
 
   return (
     <>
+      <Balance />
       <Flex
         direction={isMobile ? 'column' : 'row'}
         justifyContent="center"

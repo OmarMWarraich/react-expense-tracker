@@ -1,7 +1,11 @@
-import React, { createContext, useContext, useReducer } from 'react';
+import React, {
+  createContext,
+  useContext,
+  useReducer,
+} from 'react';
 import PropTypes from 'prop-types';
 
-const ExpenseContext = createContext();
+export const ExpenseContext = createContext();
 
 const initialState = {
   expenses: [],
@@ -26,11 +30,16 @@ function expenseReducer(state, action) {
   }
 }
 
-function ExpenseProvider({ children }) {
+function ExpenseContextProvider({ children }) {
   const [state, dispatch] = useReducer(expenseReducer, initialState);
 
+  const getTotalExpense = () => {
+    const total = state.expenses.reduce((total, item) => total + Number(item.amount), 0);
+    return Number(total);
+  };
+
   return (
-    <ExpenseContext.Provider value={{ state, dispatch }}>
+    <ExpenseContext.Provider value={{ state, dispatch, getTotalExpense }}>
       {children}
     </ExpenseContext.Provider>
   );
@@ -39,13 +48,13 @@ function ExpenseProvider({ children }) {
 function useExpenseContext() {
   const context = useContext(ExpenseContext);
   if (!context) {
-    throw new Error('useExpenseContext must be used within an ExpenseProvider');
+    throw new Error('useExpenseContext must be used within an ExpenseContextProvider');
   }
   return context;
 }
 
-ExpenseProvider.propTypes = {
+ExpenseContextProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export { ExpenseProvider, useExpenseContext };
+export { ExpenseContextProvider, useExpenseContext };
